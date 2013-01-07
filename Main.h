@@ -5,9 +5,9 @@
     Copyright (C) 2013
 
     Authors:
-    Camila Nogueira <kamilabnogueira@gmail.com>
     Daniel Garcia <contato@danielgarciaweb.com>
-    Felipe Aires <>
+    Felipe Aires <felipcool@gmail.com>
+    Kamila Nogueira <kamilabnogueira@gmail.com>
 
     Licence:
 
@@ -84,6 +84,14 @@ typedef struct TipoFilosofo
     CONTEXTO_FILOSOFO * Contexto;
 
 } FILOSOFO;
+
+/* Assinaturas */
+void Digestao();
+void Quatro_E_Vinte();
+void ConferirDisponibilidade(FILOSOFO * Filosofo);
+void PegarTalher(FILOSOFO * Filosofo);
+void EntregarTalher(FILOSOFO * Filosofo);
+void * AcoesFilosofo(void * Filosofo);
 
 
 /*
