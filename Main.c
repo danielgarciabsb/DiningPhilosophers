@@ -5,9 +5,9 @@
     Copyright (C) 2013
 
     Authors:
+    Camila Nogueira <kamilabnogueira@gmail.com>
     Daniel Garcia <contato@danielgarciaweb.com>
     Felipe Aires <>
-    Kamila Nogueira <kamilabnogueira@gmail.com>
 
     Licence:
 
@@ -35,55 +35,10 @@
 */
 
 /*
-    Inclusão de bibliotecas POSIX
+    Inclusão do cabeçalho principal
 */
 
-/* IO padrão */
-#include <stdio.h>
-#include <stdlib.h>
-/* Operações com semáforos */
-#include <semaphore.h>
-/* Operações com threads */
-#include <pthread.h>
-/* Símbolos, constantes e tipos Unix */
-#include <unistd.h>
-/* Funções com tempo */
-#include <time.h>
-
-/* Definição do máximo de filósofos a serem criados */
-#define MAX_FILOSOFOS 5
-
-/* Enumeração dos estados dos filósofos */
-enum
-{
-    PENSANDO,
-    FAMINTO,
-    COMENDO
-};
-
-/* Estrutura para armazenar o contexto de cada filosofo */
-typedef struct ContextoFilosofos
-{
-    /* Identificadores de estado do filosofo */
-    int             Estado, Refeicoes;
-    /* Identificador da thread do filosofo*/
-    pthread_t       ThreadFilosofo;
-    /* Multiplexador do filosofo*/
-    sem_t           FilosofoMutex;
-
-} CONTEXTO_FILOSOFO;
-
-/* Identificadores dos filosofos */
-typedef struct TipoFilosofo
-{
-    /* Identificador do filosofo */
-    int ID;
-    /* Multiplexador do processo */
-    sem_t * ProcessoMutex;
-    /* Acesso ao contexto de todos filosofos */
-    CONTEXTO_FILOSOFO * Contexto;
-
-} FILOSOFO;
+#include "Main.h"
 
 /* Pausa para digestão e arrotar */
 void Digestao()
