@@ -5,9 +5,9 @@
     Copyright (C) 2013
 
     Authors:
-    Camila Nogueira <kamilabnogueira@gmail.com>
     Daniel Garcia <contato@danielgarciaweb.com>
-    Felipe Aires <>
+    Felipe Aires <felipcool@gmail.com>
+    Kamila Nogueira <kamilabnogueira@gmail.com>
 
     Licence:
 
@@ -70,7 +70,7 @@ void ConferirDisponibilidade(FILOSOFO * Filosofo)
         printf("Filosofo [%d] [COMEU %d x] com talheres %d e %d\n",((FILOSOFO *)Filosofo)->ID, ((FILOSOFO *)Filosofo)->Contexto[((FILOSOFO *)Filosofo)->ID].Refeicoes, ((((FILOSOFO *)Filosofo)->ID + MAX_FILOSOFOS) % MAX_FILOSOFOS), ((FILOSOFO *)Filosofo)->ID + 1);
         /* Dá um tempo pra descer */
         Digestao();
-        /* Dá UP no mutex do filosofo */
+        /* Dá DOWN no mutex do filosofo */
         sem_post(&(((FILOSOFO *)Filosofo)->Contexto[((FILOSOFO *)Filosofo)->ID].FilosofoMutex));
     }
 }
@@ -78,7 +78,7 @@ void ConferirDisponibilidade(FILOSOFO * Filosofo)
 /* Pega talher quando disponível */
 void PegarTalher(FILOSOFO * Filosofo)
 {
-    /* Dá DOWN no mutex do processo */
+    /* Dá UP no mutex do processo */
     sem_wait(((FILOSOFO *)Filosofo)->ProcessoMutex);
     /* Altera o estado para FAMINTO */
     ((FILOSOFO *)Filosofo)->Contexto[((FILOSOFO *)Filosofo)->ID].Estado = FAMINTO;
@@ -86,16 +86,16 @@ void PegarTalher(FILOSOFO * Filosofo)
     printf("Filosofo [%d] [FAMINTO]\n", ((FILOSOFO *)Filosofo)->ID);
     /* Confere a disponibilidade de dar uma comidinha */
     ConferirDisponibilidade((FILOSOFO *) Filosofo);
-    /* Dá UP no mutex do processo */
+    /* Dá DOWN no mutex do processo */
     sem_post(((FILOSOFO *)Filosofo)->ProcessoMutex);
-    /* Dá DOWN no mutex do filosofo */
+    /* Dá UP no mutex do filosofo */
     sem_wait(&(((FILOSOFO *)Filosofo)->Contexto[((FILOSOFO *)Filosofo)->ID].FilosofoMutex));
 }
 
 /* Entrega talher quando acaba de comer */
 void EntregarTalher(FILOSOFO * Filosofo)
 {
-    /* Dá DOWN no mutex do processo */
+    /* Dá UP no mutex do processo */
     sem_wait(((FILOSOFO *)Filosofo)->ProcessoMutex);
     /* Altera o estado para PENSANDO */
     ((FILOSOFO *)Filosofo)->Contexto[((FILOSOFO *)Filosofo)->ID].Estado = PENSANDO;
@@ -103,7 +103,7 @@ void EntregarTalher(FILOSOFO * Filosofo)
     printf("Filosofo [%d] [PENSANDO] entrega talheres %d e %d\n",((FILOSOFO *)Filosofo)->ID, ((((FILOSOFO *)Filosofo)->ID + MAX_FILOSOFOS) % MAX_FILOSOFOS), ((FILOSOFO *)Filosofo)->ID + 1);
     /* Confere a oportunidade de fazer uma boquinha */
     ConferirDisponibilidade((FILOSOFO *) Filosofo);
-    /* Dá UP no mutex do processo */
+    /* Dá DOWN no mutex do processo */
     sem_post(((FILOSOFO *)Filosofo)->ProcessoMutex);
 }
 
@@ -119,7 +119,6 @@ void * AcoesFilosofo(void * Filosofo)
         Quatro_E_Vinte();
         /* Vamos comer? */
         PegarTalher((FILOSOFO *) Filosofo);
-        sleep(0);
         /* Chega de comida. */
         EntregarTalher((FILOSOFO *) Filosofo);
     }
