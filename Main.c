@@ -5,9 +5,9 @@
     Copyright (C) 2013
 
     Authors:
-    Camila Nogueira <kamilabnogueira@gmail.com>
     Daniel Garcia <contato@danielgarciaweb.com>
     Felipe Aires <>
+    Kamila Nogueira <kamilabnogueira@gmail.com>
 
     Licence:
 
